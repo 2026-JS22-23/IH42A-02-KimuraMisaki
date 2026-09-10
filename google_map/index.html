@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>World Heritage Timeline Explorer</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Google Maps -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJLJuYcD_GIpXbVRVmHDv-sdsya1hCm6Q&loading=async"
+        async
+        defer
+    ></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&loading=async" async></script> -->
+
+    <!-- MarkerClusterer -->
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js" defer></script>
+
+    <script src="js/map.js" defer></script>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ==================================================
+             ヘッダー
+        =================================================== -->
+        <header class="header">
+
+            <div class="header-logo">
+                <span class="logo-mark">WH</span>
+
+                <div>
+                    <h1>World Heritage</h1>
+                    <p>Timeline Explorer</p>
+                </div>
+            </div>
+
+            <div class="header-description">
+                <span>世界遺産を、歴史の流れから。</span>
+            </div>
+
+        </header>
+
+
+        <!-- ==================================================
+             メインコンテンツ
+        =================================================== -->
+        <main class="main">
+
+            <!-- 左パネル開閉ボタン -->
+            <button
+                class="panel-toggle"
+                type="button"
+                aria-label="左パネルを閉じる"
+            >
+                ‹
+            </button>
+
+
+            <!-- ==================================================
+                 左パネル
+            =================================================== -->
+            <aside class="side-panel">
+
+                <!-- ==================================================
+                     検索モード
+                =================================================== -->
+                <section class="panel search-panel">
+
+                    <!-- パネルタイトル -->
+                    <div class="panel-heading">
+
+                        <div>
+                            <span class="eyebrow">EXPLORE</span>
+                            <h2>世界遺産を探す</h2>
+                        </div>
+
+                        <span class="result-count">1,273 sites</span>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                        現在の表示条件
+                    ================================================== -->
+                    <section class="timeline-section">
+
+                        <div class="section-heading">
+
+                            <div>
+                                <span class="eyebrow">CURRENT RANGE</span>
+                                <h3>登録年</h3>
+                            </div>
+
+                            <div class="timeline-label">
+                                <strong>2026</strong>
+                                <span>までの登録</span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="timeline">
+
+
+                            <!-- 現在位置を示すだけのタイムライン -->
+                            <div class="range-wrapper">
+
+                                <div class="range-track"></div>
+
+                                <div class="range-position">
+
+                                    <span>2026</span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="timeline-years">
+                                <span>1978</span>
+                                <span>2026</span>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ==================================================
+                         カテゴリ
+                    =================================================== -->
+                    <section class="filter-section">
+
+                        <div class="section-heading">
+                            <div>
+                                <span class="eyebrow">CATEGORY</span>
+                                <h3>遺産の種類</h3>
+                            </div>
+                        </div>
+
+
+                        <div class="category-list">
+
+                            <label class="category-item cultural">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                    data-category="Cultural"
+                                >
+
+                                <span class="custom-checkbox"></span>
+
+                                <span class="category-name">
+                                    文化遺産
+                                </span>
+
+                                <span class="category-count">
+                                    991
+                                </span>
+
+                            </label>
+
+
+                            <label class="category-item natural">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                    data-category="Natural"
+                                >
+
+                                <span class="custom-checkbox"></span>
+
+                                <span class="category-name">
+                                    自然遺産
+                                </span>
+
+                                <span class="category-count">
+                                    240
+                                </span>
+
+                            </label>
+
+
+                            <label class="category-item mixed">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                    data-category="Mixed"
+                                >
+
+                                <span class="custom-checkbox"></span>
+
+                                <span class="category-name">
+                                    複合遺産
+                                </span>
+
+                                <span class="category-count">
+                                    42
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ==================================================
+                         世界遺産一覧
+                    =================================================== -->
+                    <section class="heritage-list-section">
+
+                        <div class="section-heading list-heading">
+
+                            <div>
+                                <span class="eyebrow">WORLD HERITAGE</span>
+                                <h3>世界遺産一覧</h3>
+                            </div>
+
+                            <!-- <button class="sort-button">
+                                登録年順
+                                <span>⌄</span>
+                            </button> -->
+
+                        </div>
+
+
+                        <div
+                            class="heritage-list"
+                            id="heritage-list"
+                        >
+                        </div>
+
+                    </section>
+
+
+                    <!-- パネルフッター -->
+                    <div class="panel-footer">
+
+                        <div class="data-source">
+                            <span class="eyebrow">DATA SOURCE</span>
+
+                            <a
+                                href="https://data.unesco.org/explore/assets/whc001/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                UNESCO DataHub — World Heritage List
+                            </a>
+                        </div>
+
+                        <p class="data-note">
+                            日本語訳は英語原文を基に
+                            本サイトで独自に翻訳したものであり、
+                            UNESCOによる公式訳ではありません。
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ==================================================
+                     詳細モード
+                     
+                     現時点ではCSSで非表示。
+                     後でJSによって search-panel と切り替える。
+                =================================================== -->
+                <section class="panel detail-panel">
+
+                    <!-- 一覧へ戻る -->
+                    <button
+                        class="back-button"
+                        id="back-to-list"
+                        type="button"
+                    >
+                        <span>←</span>
+                        世界遺産一覧へ戻る
+                    </button>
+
+
+                    <!-- 画像 -->
+                    <div class="detail-image">
+
+                        <img
+                            id="detail-image"
+                            src=""
+                            alt=""
+                        >
+
+                        <div id="detail-image-placeholder">
+                            IMAGE
+                        </div>
+
+                        <!-- <span class="detail-category">
+                            CULTURAL
+                        </span> -->
+
+                    </div>
+
+
+                    <!-- ==================================================
+                        詳細内容
+                    ================================================== -->
+                    <div class="detail-content">
+
+                        <!-- カテゴリ・登録年 -->
+                        <span
+                            class="eyebrow"
+                            id="detail-eyebrow"
+                        >
+                            WORLD HERITAGE
+                        </span>
+
+
+                        <!-- 世界遺産名 -->
+                        <h2
+                            class="detail-title-ja"
+                            id="detail-title-ja"
+                        >
+                            世界遺産名
+                        </h2>
+                        <div
+                            class="detail-title-en"
+                            id="detail-title-en"
+                        >
+                            World Heritage Name
+                        </div>
+
+
+                        <!-- 国 -->
+                        <p
+                            class="detail-location"
+                            id="detail-location"
+                        >
+                            国
+                        </p>
+
+
+                        <div class="detail-divider"></div>
+
+
+                        <!-- ==================================================
+                            基本情報
+                        ================================================== -->
+                        <dl class="detail-information">
+
+                            <div>
+                                <dt>登録年</dt>
+
+                                <dd id="detail-year">
+                                    -
+                                </dd>
+                            </div>
+
+
+                            <div>
+                                <dt>カテゴリー</dt>
+
+                                <dd id="detail-category">
+                                    -
+                                </dd>
+                            </div>
+
+
+                            <div>
+                                <dt>登録基準</dt>
+
+                                <dd id="detail-criteria">
+                                    -
+                                </dd>
+                            </div>
+
+                        </dl>
+
+
+                        <!-- ==================================================
+                            説明
+                        ================================================== -->
+                        <div class="detail-description">
+
+                            <div class="description-header">
+
+                                <h3>About</h3>
+
+
+                                <!-- 説明言語切り替え -->
+                                <div class="language-tabs">
+
+                                    <button
+                                        type="button"
+                                        class="language-tab is-active"
+                                        data-language="ja"
+                                    >
+                                        日本語
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="language-tab"
+                                        data-language="en"
+                                    >
+                                        English
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- 日本語説明 -->
+                            <p
+                                class="description-text"
+                                id="detail-description-ja"
+                            >
+                            </p>
+
+
+                            <!-- 英語説明 -->
+                            <p
+                                class="description-text"
+                                id="detail-description-en"
+                            >
+                            </p>
+
+                        </div>
+
+
+                        <!-- ==================================================
+                            Components
+                        ================================================== -->
+                        <div class="detail-components">
+
+                            <div class="components-heading">
+                                <h3>構成資産</h3>
+
+                                <p id="detail-components-count">
+                                    -
+                                </p>
+                            </div>
+                            <ol id="components-lists"></ol>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </aside>
+
+
+            <!-- ==================================================
+                 地図エリア
+            =================================================== -->
+            <section class="map-area">
+
+                <!-- ==================================================
+                    Google Maps
+                ================================================== -->
+                <div class="map-placeholder">
+
+                    <!-- Google Maps専用コンテナ -->
+                    <div id="map"></div>
+
+
+                    <!-- ==================================================
+                        地図上の年表示
+                    =================================================== -->
+                    <div class="map-year">
+
+                        <span>SHOWING HERITAGE</span>
+
+                        <strong id="map-year">1978 — 2026</strong>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                        地図操作ボタン
+                    =================================================== -->
+                    <div class="map-controls">
+
+                        <button
+                            id="zoom-in"
+                            aria-label="ズームイン"
+                        >
+                            +
+                        </button>
+
+                        <button
+                            id="zoom-out"
+                            aria-label="ズームアウト"
+                        >
+                            −
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                    タイムライン再生UI
+                =================================================== -->
+                <div class="timeline-controller">
+
+                    <button
+                        class="play-button"
+                        aria-label="タイムラインを再生"
+                    >
+                        ▶
+                    </button>
+
+                    <div class="controller-content">
+
+                        <div class="controller-header">
+
+                            <span>
+                                WORLD HERITAGE TIMELINE
+                            </span>
+
+                            <strong>
+                                2026
+                            </strong>
+
+                        </div>
+
+                        <div class="controller-track">
+
+                            <div class="controller-progress"></div>
+
+                            <div class="controller-thumb"></div>
+
+                        </div>
+
+                        <div class="controller-years">
+
+                            <span>1978</span>
+                            <span>2026</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                    コピーライト
+                =================================================== -->
+                <div class="map-copyright">
+                    &copy; <script>const hiduke=new Date();document.write(hiduke.getFullYear());</script> WORLD HERITAGE MAP
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

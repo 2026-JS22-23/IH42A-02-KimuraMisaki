@@ -1,0 +1,1832 @@
+:root {
+    --side-panel-width: 380px;
+}
+
+/* =========================================================
+   Reset
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family:
+        "Inter",
+        "Noto Sans JP",
+        sans-serif;
+
+    color: #1d2523;
+    background: #f4f4f0;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   App
+========================================================= */
+
+.app {
+    width: 100%;
+    height: 100vh;
+    min-height: 700px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   Header
+========================================================= */
+
+.header {
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 28px;
+
+    background: #fafaf7;
+
+    border-bottom: 1px solid #dedfd8;
+
+    flex-shrink: 0;
+}
+
+
+/* Logo */
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-mark {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #1d2523;
+    color: #fff;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.header-logo h1 {
+    font-size: 15px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.header-logo p {
+    margin-top: 2px;
+
+    font-size: 10px;
+    color: #8b918d;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.header-description {
+    font-size: 12px;
+    color: #777e7a;
+}
+
+
+/* =========================================================
+   Main
+========================================================= */
+
+.main {
+    flex: 1;
+
+    display: flex;
+
+    min-height: 0;
+}
+
+
+/* =========================================================
+   Side Panel
+========================================================= */
+
+.side-panel {
+    position: relative;
+
+    width: var(--side-panel-width);
+    height: 100%;
+
+    flex-shrink: 0;
+
+    background: #fafaf7;
+
+    border-right: 1px solid #dedfd8;
+
+    overflow: hidden;
+
+    transition:
+        width 0.35s ease;
+}
+
+
+/* 共通パネル */
+
+.panel {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: #fafaf7;
+}
+
+
+/* =========================================================
+   Search Panel
+========================================================= */
+
+.search-panel {
+    z-index: 2;
+
+    transition:
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+
+/* =========================================================
+   Detail Panel
+========================================================= */
+
+/*
+    今は非表示。
+
+    後でJavaScriptから
+
+    search-panel
+        ↓
+    detail-panel
+
+    に切り替える。
+*/
+
+.detail-panel {
+    z-index: 3;
+
+    visibility: hidden;
+    transform: translateX(100%);
+
+    transition:
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+
+/* =========================================================
+   Detail Mode
+========================================================= */
+/*
+    JSで .is-detail を付けたとき
+
+    .side-panel.is-detail .search-panel
+    .side-panel.is-detail .detail-panel
+
+    を操作する予定。
+*/
+
+.side-panel.is-detail .search-panel {
+    visibility: hidden;
+
+    transform: translateX(-100%);
+
+    transition:
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+
+.side-panel.is-detail .detail-panel {
+    visibility: visible;
+
+    transform: translateX(0);
+
+    transition:
+        transform 0.35s ease,
+        visibility 0.35s ease;
+}
+
+
+/* =========================================================
+   Panel Heading
+========================================================= */
+
+.panel-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    padding: 20px 24px 14px;
+
+    border-bottom: 1px solid #e4e5df;
+}
+
+.panel-heading h2 {
+    margin-top: 3px;
+
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.eyebrow {
+    display: block;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.16em;
+
+    color: #8b918d;
+}
+
+.result-count {
+    font-size: 10px;
+    color: #979d99;
+}
+
+/* パネル閉じる */
+.panel-toggle {
+    position: absolute;
+
+    z-index: 20;
+
+    top: 50%;
+    left: var(--side-panel-width);
+
+    width: 28px;
+    height: 52px;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(250, 250, 247, 0.95);
+
+    border: 1px solid #dedfd8;
+    border-left: none;
+
+    color: #5d6762;
+
+    font-size: 24px;
+
+    box-shadow:
+        3px 0 12px rgba(30, 40, 35, 0.08);
+
+    cursor: pointer;
+
+    transition:
+        left 0.35s ease,
+        background 0.2s ease;
+}
+
+.panel-toggle:hover {
+    background: #fff;
+}
+
+/* パネル閉じる状態 */
+.main.panel-closed .side-panel {
+    width: 0;
+}
+
+.main.panel-closed .panel-toggle {
+    left: 0;
+}
+
+.main.panel-closed .map-controls {
+    left: 24px;
+}
+
+/* =========================================================
+   Section
+========================================================= */
+
+.timeline-section,
+.filter-section,
+.heritage-list-section {
+    padding: 16px 24px;
+
+    border-bottom: 1px solid #e4e5df;
+}
+
+.timeline-section {
+    padding-top: 15px;
+    padding-bottom: 14px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-heading h3 {
+    margin-top: 4px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.timeline-label {
+    margin-top: 3px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 5px;
+
+    font-size: 9px;
+    color: #9da29f;
+}
+
+
+.timeline-label strong {
+    color: #344640;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+}
+
+/* =========================================================
+   Timeline
+========================================================= */
+
+.timeline {
+    margin-top: 14px;
+}
+
+.timeline-years {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 3px;
+
+    font-size: 9px;
+    color: #9da29f;
+}
+
+.timeline-section .section-heading {
+    position: relative;
+}
+
+.timeline-section .current-year {
+    position: absolute;
+
+    right: 0;
+    bottom: 3px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #344640;
+}
+
+
+.range-wrapper {
+    position: relative;
+
+    width: 100%;
+    height: 18px;
+
+    display: flex;
+    align-items: center;
+}
+
+.range-track {
+    position: absolute;
+
+    width: 100%;
+    height: 2px;
+
+    background: #dfe1da;
+
+    border-radius: 99px;
+}
+
+/* .range-progress {
+    position: absolute;
+
+    width: 100%;
+    height: 3px;
+
+    background: #344640;
+
+    border-radius: 99px;
+} */
+
+.range-position {
+    position: absolute;
+
+    left: 100%;
+    top: 50%;
+
+    width: 0.05em;
+    height: 17px;
+
+    background: #344640;
+
+    transform: translate(-50%, -50%);
+}
+
+.range-position span {
+    position: absolute;
+
+    left: 50%;
+    bottom: 15px;
+
+    transform: translateX(-50%);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    color: #344640;
+
+    white-space: nowrap;
+}
+
+.range-thumb {
+    position: absolute;
+
+    right: -5px;
+
+    width: 12px;
+    height: 12px;
+
+    background: #344640;
+
+    border: 3px solid #fafaf7;
+
+    border-radius: 50%;
+
+    box-shadow: 0 0 0 1px #344640;
+}
+
+
+/* =========================================================
+   Category
+========================================================= */
+
+.category-list {
+    margin-top: 8px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+
+    min-height: 34px;
+
+    padding: 0 10px;
+
+    border: 1px solid #e0e2dc;
+
+    background: #fff;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.category-item:hover {
+    border-color: #afb5af;
+}
+
+.category-item input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.custom-checkbox {
+    width: 12px;
+    height: 12px;
+
+    margin-right: 9px;
+
+    border: 1px solid #b8bdb8;
+
+    position: relative;
+}
+
+
+/*
+    checked状態
+*/
+
+.category-item input:checked + .custom-checkbox {
+    background: #344640;
+    border-color: #344640;
+}
+
+/* 文化 */
+.category-item.cultural .custom-checkbox {
+    border-color: #8b6b4a;
+}
+
+.category-item.cultural input:checked + .custom-checkbox {
+    background: #8b6b4a;
+    border-color: #8b6b4a;
+}
+
+/* 自然 */
+.category-item.natural .custom-checkbox {
+    border-color: #5d8068;
+}
+
+.category-item.natural input:checked + .custom-checkbox {
+    background: #5d8068;
+    border-color: #5d8068;
+}
+
+/* 複合 */
+.category-item.mixed .custom-checkbox {
+    border-color:
+        linear-gradient(
+            90deg,
+            #8b6b4a 0%,
+            #8b6b4a 52%,
+            #5d8068 52%,
+            #5d8068 100%
+        );
+}
+
+.category-item.mixed input:checked + .custom-checkbox {
+    border-color: #fff3;
+    background:
+        linear-gradient(
+            90deg,
+            #8b6b4a 0%,
+            #8b6b4a 52%,
+            #5d8068 52%,
+            #5d8068 100%
+        );
+}
+
+.category-item input:checked + .custom-checkbox::after {
+    content: "";
+
+    position: absolute;
+
+    width: 5px;
+    height: 3px;
+
+    left: 3px;
+    top: 3px;
+
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+
+    transform: rotate(-45deg);
+}
+
+.category-name {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.category-count {
+    margin-left: auto;
+
+    font-size: 9px;
+    color: #9da29f;
+}
+
+
+/* =========================================================
+   Heritage List
+========================================================= */
+
+.heritage-list-section {
+    flex: 1;
+
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.list-heading {
+    flex-shrink: 0;
+}
+
+.sort-button {
+    padding: 5px 7px;
+
+    border: 1px solid #dedfd8;
+
+    color: #737a76;
+
+    font-size: 9px;
+}
+
+.sort-button span {
+    margin-left: 4px;
+}
+
+
+/* List */
+
+.heritage-list {
+    margin-top: 12px;
+    border-top: 1px solid #a0a6a210;
+    overflow-y: auto;
+}
+
+
+/* Scrollbar */
+
+.heritage-list::-webkit-scrollbar {
+    width: 3px;
+}
+
+.heritage-list::-webkit-scrollbar-thumb {
+    background: #c5cac4;
+}
+
+
+/* List Item */
+
+.heritage-item {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 13px 4px;
+
+    text-align: left;
+
+    background-color: #fff8;
+    border-bottom: 1px solid #e8e9e4;
+
+    transition:
+        background 0.2s ease,
+        padding-left 0.2s ease;
+}
+
+.heritage-item:hover {
+    padding-left: 9px;
+
+    background: #f0f1eb;
+}
+
+.heritage-item-number {
+    width: 28px;
+
+    font-size: 9px;
+    color: #a0a6a2;
+}
+
+.heritage-item-content {
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.heritage-item-name {
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.heritage-item-meta {
+    font-size: 9px;
+    color: #989e9a;
+}
+
+.heritage-item-arrow {
+    margin-left: 10px;
+
+    color: #a0a6a2;
+
+    transition: transform 0.2s ease;
+}
+
+.heritage-item:hover .heritage-item-arrow {
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   Panel Footer
+========================================================= */
+
+.panel-footer {
+    padding: 10px 24px;
+
+    flex-shrink: 0;
+
+    font-size: 8px;
+
+    letter-spacing: 0.08em;
+
+    color: #a2a7a3;
+
+    border-top: 1px solid #e4e5df;
+}
+
+.data-source {
+    margin-bottom: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.data-source a {
+    color: #344640;
+    text-decoration: underline;
+    transition: opacity 0.2s;
+}
+
+.data-source a:hover {
+    opacity: 0.7;
+}
+
+.data-note {
+    font-size: 7px !important;
+    color: #a0a6a2 !important;
+}
+
+
+/* =========================================================
+   Detail Panel
+========================================================= */
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 19px 24px;
+
+    text-align: left;
+
+    color: #666d69;
+
+    font-size: 10px;
+
+    border-bottom: 1px solid #e4e5df;
+}
+
+.back-button span {
+    font-size: 15px;
+}
+
+.back-button:hover {
+    color: #1d2523;
+}
+
+
+/* =========================================================
+   詳細パネル：画像
+========================================================= */
+
+.detail-image {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    background: #e8e6df;
+    border: #979d99;
+}
+
+
+.detail-image img {
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+}
+
+.detail-image-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #a2a7a3;
+
+    font-size: 10px;
+    letter-spacing: 0.15em;
+}
+
+.detail-category {
+    position: absolute;
+
+    left: 16px;
+    bottom: 16px;
+
+    padding: 6px 8px;
+
+    background: rgba(29, 37, 35, 0.9);
+
+    color: #fff;
+
+    font-size: 8px;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+}
+
+
+/* Detail Content */
+
+.detail-content {
+    padding: 23px 24px;
+
+    overflow-y: auto;
+}
+
+.detail-title-en {
+    margin-left: 2px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #59635e;
+}
+
+.detail-title-ja {
+    margin-top: 10px;
+    padding: 5px 0;
+    font-size: 25px;
+    line-height: 1.1;
+
+    font-weight: 600;
+}
+
+.detail-location {
+    margin-top: 7px;
+
+    font-size: 10px;
+    color: #858b87;
+}
+
+.detail-divider {
+    width: 100%;
+    height: 1px;
+
+    margin: 20px 0;
+
+    background: #e1e3dd;
+}
+
+
+/* Detail Information */
+
+.detail-information {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    border-top: 1px solid #e1e3dd;
+    border-left: 1px solid #e1e3dd;
+}
+
+.detail-information div {
+    padding: 10px;
+
+    border-right: 1px solid #e1e3dd;
+    border-bottom: 1px solid #e1e3dd;
+}
+
+.detail-information dt {
+    font-size: 8px;
+    color: #9ba09c;
+}
+
+.detail-information dd {
+    margin-top: 5px;
+
+    font-size: 11px;
+    font-weight: 500;
+}
+
+
+/* Description */
+
+.detail-description {
+    margin-top: 24px;
+}
+
+.detail-description h3 {
+    font-size: 11px;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+.detail-description p {
+    margin-top: 10px;
+
+    font-size: 11px;
+    line-height: 2;
+
+    color: #626965;
+}
+
+
+/* =========================================================
+   Detail Description Header
+========================================================= */
+
+.description-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.description-header h3 {
+    font-size: 11px;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   Language Tabs
+========================================================= */
+
+.language-tabs {
+    display: flex;
+
+    border: 1px solid #dedfd8;
+}
+
+.language-tab {
+    padding: 5px 8px;
+
+    font-size: 8px;
+
+    color: #858b87;
+
+    background: #fafaf7;
+
+    border-right: 1px solid #dedfd8;
+}
+
+.language-tab:last-child {
+    border-right: none;
+}
+
+.language-tab.is-active {
+    background: #344640;
+
+    color: #fff;
+}
+
+
+/* =========================================================
+   Description Text
+========================================================= */
+
+.description-text {
+    margin-top: 10px;
+
+    font-size: 11px;
+
+    line-height: 2;
+
+    color: #626965;
+}
+
+
+/*
+    初期状態では英語を非表示
+*/
+#detail-description-en {
+    display: none;
+}
+
+
+/* =========================================================
+   Components Information
+========================================================= */
+
+.detail-components {
+    margin-top: 28px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #e1e3dd;
+}
+
+.components-heading{
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.detail-components h3 {
+    font-size: 11px;
+
+    letter-spacing: 0.08em;
+}
+
+.detail-components p {
+    font-size: 10px;
+
+    color: #858b87;
+}
+
+#components-lists{
+    margin-top: 10px;
+    font-size: 12px;
+    color: #59635e;
+}
+
+#components-lists li{
+    margin-bottom: 5px;
+    margin-left: 15px;
+}
+
+
+/* =========================================================
+   Map Area
+========================================================= */
+
+.map-area {
+    position: relative;
+
+    flex: 1;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    background: #dfe4df;
+}
+
+
+/* =========================================================
+   Map Placeholder
+========================================================= */
+
+.map-placeholder {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: #e5e3df;
+}
+
+/* =========================================================
+   Google Maps
+========================================================= */
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* =========================================================
+   Map Year
+========================================================= */
+
+.map-year {
+    position: absolute;
+
+    top: 24px;
+    right: 24px;
+
+    padding: 13px 16px;
+
+    background: rgba(250, 250, 247, 0.92);
+
+    border: 1px solid rgba(210, 214, 208, 0.8);
+
+    box-shadow:
+        0 5px 20px rgba(30, 40, 35, 0.06);
+
+    backdrop-filter: blur(8px);
+}
+
+.map-year span {
+    display: block;
+
+    font-size: 7px;
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+
+    color: #909792;
+}
+
+.map-year strong {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   Map Controls
+========================================================= */
+
+.map-controls {
+    position: absolute;
+
+    top: 24px;
+    left: 24px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: rgba(250, 250, 247, 0.95);
+
+    box-shadow:
+        0 5px 20px rgba(30, 40, 35, 0.06);
+}
+
+.map-controls button {
+    width: 38px;
+    height: 38px;
+
+    color: #59635e;
+
+    font-size: 18px;
+
+    border-bottom: 1px solid #e1e3dd;
+}
+
+.map-controls button:last-child {
+    border-bottom: none;
+}
+
+.map-controls button:hover {
+    background: #f0f1ec;
+}
+
+
+/* =========================================================
+   Timeline Controller
+========================================================= */
+
+.timeline-controller {
+    position: absolute;
+
+    left: 50%;
+    bottom: 28px;
+
+    width: min(650px, calc(100% - 48px));
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    padding: 15px 18px;
+
+    background: rgba(250, 250, 247, 0.95);
+
+    border: 1px solid rgba(215, 218, 212, 0.9);
+
+    box-shadow:
+        0 10px 35px rgba(30, 40, 35, 0.12);
+
+    backdrop-filter: blur(10px);
+}
+
+
+/* Play */
+
+.play-button {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #344640;
+
+    color: #fff;
+
+    font-size: 10px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.play-button:hover {
+    transform: scale(1.05);
+
+    background: #263732;
+}
+
+
+/* Controller Content */
+
+.controller-content {
+    flex: 1;
+}
+
+.controller-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 9px;
+}
+
+.controller-header span {
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 0.13em;
+
+    color: #858c87;
+}
+
+.controller-header strong {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+/* Track */
+
+.controller-track {
+    cursor: pointer;
+    position: relative;
+
+    width: 100%;
+    height: 16px;
+
+    display: flex;
+    align-items: center;
+}
+
+.controller-track::before {
+    content: "";
+
+    position: absolute;
+
+    width: 100%;
+    height: 3px;
+
+    background: #dfe1da;
+
+    border-radius: 99px;
+}
+
+.controller-progress {
+    position: absolute;
+
+    width: 100%;
+    height: 3px;
+
+    background: #344640;
+
+    border-radius: 99px;
+}
+
+.controller-thumb {
+    position: absolute;
+
+    /* right: -4px; */
+    left: 100%;
+
+    transform: translateX(-50%);
+
+    width: 11px;
+    height: 11px;
+
+    background: #344640;
+
+    border: 2px solid #fafaf7;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 1px #344640;
+}
+
+
+/* Controller Years */
+
+.controller-years {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 8px;
+
+    color: #a0a6a2;
+}
+
+
+/* =========================================================
+   Copyright
+========================================================= */
+
+.map-copyright {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    z-index: 5;
+
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    color: #6f7772;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   レスポンシブ
+========================================================= */
+
+@media (max-width: 900px) {
+
+    :root {
+        --side-panel-width: 320px;
+    }
+
+    .side-panel {
+        width: var(--side-panel-width);
+    }
+
+    .header-description {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .app {
+        min-height: 100vh;
+    }
+
+    .header {
+        height: 64px;
+
+        padding: 0 16px;
+    }
+
+    .header-logo h1 {
+        font-size: 13px;
+    }
+
+    .main {
+        position: relative;
+    }
+
+    .side-panel {
+        position: absolute;
+
+        z-index: 10;
+
+        left: 0;
+        bottom: 0;
+
+        width: 100%;
+        height: 45%;
+
+        border-right: none;
+
+        border-top: 1px solid #dedfd8;
+    }
+
+    .map-area {
+        width: 100%;
+        height: 100%;
+    }
+
+    .timeline-controller {
+        bottom: calc(45% + 15px);
+
+        width: calc(100% - 32px);
+    }
+
+    .map-controls {
+        top: 16px;
+        left: 16px;
+    }
+
+    .map-year {
+        top: 16px;
+        right: 16px;
+    }
+
+}
+
+
+
+/* =========================================================
+   Center Marker
+========================================================= */
+
+.center-marker {
+    position: relative;
+
+    width: 24px;
+    height: 24px;
+
+    border: 1px solid #fafaf7;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 3px 8px rgba(30, 40, 35, 0.20);
+
+}
+
+/* =========================================================
+   Center Marker Inner
+========================================================= */
+.center-marker-label {
+    position: absolute;
+
+    /* left: 18px; */
+    /* top: 50%; */
+    left: 0%;
+    top: -50%;
+
+    transform: translateY(-50%);
+
+    padding: 4px 7px;
+
+    background: rgba(250, 250, 247, 0.95);
+
+    border: 1px solid #dfe1da;
+
+    color: #263732;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 3px 10px rgba(30, 40, 35, 0.10);
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+.center-marker:hover .center-marker-label {
+    opacity: 1;
+}
+
+
+.center-marker-dot {
+    display: block;
+
+    width: 14px;
+    height: 14px;
+
+    background: transparent;
+
+    /* border: 2px solid #ffffff; */
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 1px 4px rgba(30, 40, 35, 0.20);
+}
+
+
+/* =========================================================
+   Category
+========================================================= */
+
+.center-marker.cultural-marker{
+    background: #8b6b4a;
+}
+
+
+.center-marker.natural-marker{
+    background: #5d8068;
+}
+
+
+.center-marker.mixed-marker{
+    background:
+        linear-gradient(
+            90deg,
+            #8b6b4a 0%,
+            #8b6b4a 50%,
+            #5d8068 50%,
+            #5d8068 100%
+        );
+}
+
+
+/* =========================================================
+   Components Count
+========================================================= */
+/*
+    Center Markerに含まれる
+    構成資産の数を表示する。
+*/
+.components-count {
+    position: absolute;
+
+    top: -25%;
+    right: -10%;
+
+    width: 15px;
+    height: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f5efd9;
+
+    color: #344640;
+
+    font-size: 8px;
+    font-weight: 600;
+
+    border: 2px solid #fff;
+
+    box-shadow:
+        0 2px 7px rgba(30, 40, 35, 0.18);
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   Center Marker State
+========================================================= */
+
+.center-marker.is-selected {
+    /* display: none; */
+    /* opacity: 0; */
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    transition: background 0.5s;
+    transform:
+        scale(1.3);
+    animation: selected 0.3s ease-out;
+}
+
+@keyframes selected {
+
+    0% {
+        /* display: flex; */
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0.7;
+    }
+
+    100% {
+        /* display: none; */
+        opacity: 0;
+    }
+
+}
+
+
+.center-marker.is-selected .center-marker-label {
+    top: -5%;
+    opacity: 1;
+    transition: top 0.3s;
+}
+
+.center-marker.is-selected .center-marker-dot {
+    /* box-shadow:
+        0 0 0 4px rgba(52, 70, 64, 0.18),
+        0 2px 8px rgba(30, 40, 35, 0.3); */
+    box-shadow: none;
+}
+
+.center-marker.is-selected .components-count{
+    display: none;
+}
+
+
+.center-marker.is-dimmed {
+    opacity: 0.35;
+}
+
+
+/* =========================================================
+   Hover
+========================================================= */
+
+.center-marker:hover {
+    transform:
+        scale(1.08);
+}
+.center-marker.is-selected:hover {
+    transform: scale(1.3);
+}
+
+.center-marker:hover .components-count {
+    transform:
+        scale(1.08);
+}
+
+
+/* =========================================================
+   Pop Animation
+========================================================= */
+
+.center-marker.is-pop {
+    animation: heritage-pop 0.45s ease-out;
+}
+
+
+@keyframes heritage-pop {
+
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.35);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   Component Marker
+========================================================= */
+
+.component-marker {
+    position: relative;
+
+    width: 12px;
+    height: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+
+.component-marker-dot {
+    width: 12px;
+    height: 12px;
+
+    display: block;
+
+    background: #ffffff;
+
+    border: 3px solid #344640;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 2px 6px rgba(30, 40, 35, 0.25);
+}
+
+
+.component-marker-label {
+    position: absolute;
+
+    left: 18px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    padding: 4px 7px;
+
+    background: rgba(250, 250, 247, 0.95);
+
+    border: 1px solid #dfe1da;
+
+    color: #263732;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 3px 10px rgba(30, 40, 35, 0.10);
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+
+.component-marker:hover .component-marker-label {
+    opacity: 1;
+}
+
+
+.component-marker:hover .component-marker-dot {
+    transform: scale(1.25);
+
+    box-shadow:
+        0 3px 9px rgba(30, 40, 35, 0.3);
+}
